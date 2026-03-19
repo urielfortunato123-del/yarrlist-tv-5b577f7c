@@ -59,6 +59,7 @@ const Index = () => {
   const visitCount = useVisitCounter();
   const { canInstall, install } = usePwaInstall();
   const { canShare, share } = useShareApp();
+  const [changelogOpen, setChangelogOpen] = useState(false);
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
