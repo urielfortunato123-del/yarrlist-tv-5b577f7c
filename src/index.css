@@ -6,6 +6,53 @@
 
 @layer base {
   :root {
+    --background: 210 30% 96%;
+    --foreground: 220 20% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 15%;
+
+    --primary: 35 95% 45%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 20% 92%;
+    --secondary-foreground: 220 20% 30%;
+
+    --muted: 210 15% 90%;
+    --muted-foreground: 220 10% 45%;
+
+    --accent: 250 70% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 210 15% 88%;
+    --input: 210 15% 88%;
+    --ring: 35 95% 45%;
+
+    --radius: 1.25rem;
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 220 20% 15%;
+    --sidebar-primary: 35 95% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 20% 92%;
+    --sidebar-accent-foreground: 220 20% 15%;
+    --sidebar-border: 210 15% 88%;
+    --sidebar-ring: 35 95% 45%;
+
+    --gradient-gold: linear-gradient(135deg, hsl(35, 95%, 45%), hsl(25, 100%, 50%));
+    --shadow-glow: 0 0 20px hsl(35 95% 45% / 0.1);
+    --shadow-glow-hover: 0 0 40px hsl(35 95% 45% / 0.2);
+
+    --wallpaper: url('/wallpaper-light.jpg');
+  }
+
+  .dark {
     --background: 220 20% 6%;
     --foreground: 0 0% 95%;
 
@@ -34,8 +81,6 @@
     --input: 220 15% 16%;
     --ring: 45 100% 55%;
 
-    --radius: 1.25rem;
-
     --sidebar-background: 220 20% 8%;
     --sidebar-foreground: 0 0% 95%;
     --sidebar-primary: 45 100% 55%;
@@ -48,6 +93,8 @@
     --gradient-gold: linear-gradient(135deg, hsl(45, 100%, 55%), hsl(30, 100%, 60%));
     --shadow-glow: 0 0 20px hsl(45 100% 55% / 0.12);
     --shadow-glow-hover: 0 0 40px hsl(45 100% 55% / 0.25);
+
+    --wallpaper: url('/wallpaper-dark.jpg');
   }
 }
 
@@ -81,15 +128,15 @@
   }
 
   .glass-panel {
-    background: hsl(220 15% 10% / 0.6);
+    background: hsl(var(--card) / 0.7);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
   }
 
-  .bg-mesh {
-    background-image:
-      radial-gradient(at 20% 20%, hsl(250 80% 65% / 0.08) 0px, transparent 50%),
-      radial-gradient(at 80% 80%, hsl(45 100% 55% / 0.06) 0px, transparent 50%),
-      radial-gradient(at 50% 0%, hsl(200 80% 55% / 0.05) 0px, transparent 60%);
+  .bg-wallpaper {
+    background-image: var(--wallpaper);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
   }
 }

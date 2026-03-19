@@ -10,6 +10,7 @@ import { Anchor, Star, Search, Heart, Users, Copy, Check, Download, Share2, Refr
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import pixQrCode from "@/assets/pix-qrcode.png";
 import { ChangelogDialog } from "@/components/ChangelogDialog";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const PIX_CODE = "00020126330014BR.GOV.BCB.PIX01113638483487152040000530398654041.005802BR5901N6001C62140510YARRLISTTV63045AC";
 
@@ -71,10 +72,13 @@ const Index = () => {
   const otherCategories = filtered.filter((c) => !favorites.includes(c.id));
 
   return (
-    <div className="relative flex min-h-screen flex-col bg-background bg-mesh">
+    <div className="relative flex min-h-screen flex-col bg-wallpaper">
+      {/* Overlay for readability */}
+      <div className="pointer-events-none fixed inset-0 bg-background/70" />
+
       {/* Top bar */}
       <div className="glass-panel sticky top-0 z-30 border-b border-border/50 px-4 py-3 sm:px-6">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3">
+        <div className="relative z-10 mx-auto flex max-w-6xl items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
             <Anchor className="h-6 w-6 text-primary" />
             <h1 className="font-display text-lg font-bold tracking-wide text-gradient-gold sm:text-xl">
@@ -82,6 +86,7 @@ const Index = () => {
             </h1>
           </div>
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <button
               onClick={() => setChangelogOpen(true)}
               className="flex items-center gap-1.5 rounded-xl bg-secondary px-3 py-1.5 font-body text-xs font-medium text-muted-foreground transition-all hover:text-foreground"
@@ -95,7 +100,7 @@ const Index = () => {
       </div>
 
       {/* Main content */}
-      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-4 py-6 sm:px-6 sm:py-8">
+      <main className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col px-4 py-6 sm:px-6 sm:py-8">
         {/* Donate Banner */}
         <motion.button
           initial={{ opacity: 0, y: -10 }}
@@ -171,7 +176,7 @@ const Index = () => {
       </main>
 
       {/* Footer */}
-      <footer className="glass-panel border-t border-border/50 px-4 py-4 sm:px-6">
+      <footer className="glass-panel relative z-10 border-t border-border/50 px-4 py-4 sm:px-6">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 sm:flex-row sm:justify-between">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
