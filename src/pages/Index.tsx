@@ -24,7 +24,7 @@ const PixDonateContent = ({ visitCount }: { visitCount: number }) => {
 
   return (
     <div className="flex flex-col items-center gap-4 py-4">
-      <div className="rounded-xl border-2 border-border bg-white p-3">
+      <div className="rounded-2xl border border-border bg-white p-3">
         <img src={pixQrCode} alt="QR Code PIX" className="h-48 w-48 object-contain" />
       </div>
       <p className="text-center font-body text-sm text-muted-foreground">
@@ -32,17 +32,17 @@ const PixDonateContent = ({ visitCount }: { visitCount: number }) => {
       </p>
       <div className="w-full">
         <p className="mb-1 text-center font-body text-xs font-semibold text-muted-foreground">Pix Copia-e-cola:</p>
-        <div className="flex items-center gap-2 rounded-lg border border-border bg-secondary p-2">
+        <div className="flex items-center gap-2 rounded-xl border border-border bg-secondary p-2">
           <p className="flex-1 break-all text-center font-mono text-[10px] text-foreground">{PIX_CODE}</p>
           <button
             onClick={handleCopy}
-            className="shrink-0 rounded-md border border-border bg-card p-1.5 text-muted-foreground transition-colors hover:text-primary"
+            className="shrink-0 rounded-lg border border-border bg-card p-1.5 text-muted-foreground transition-colors hover:text-primary"
             title="Copiar código PIX"
           >
-            {copied ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
+            {copied ? <Check className="h-4 w-4 text-emerald-400" /> : <Copy className="h-4 w-4" />}
           </button>
         </div>
-        {copied && <p className="mt-1 text-center text-xs text-green-500">Copiado!</p>}
+        {copied && <p className="mt-1 text-center text-xs text-emerald-400">Copiado!</p>}
       </div>
       <div className="flex items-center gap-2 text-xs text-muted-foreground">
         <Users className="h-4 w-4" />
@@ -53,7 +53,7 @@ const PixDonateContent = ({ visitCount }: { visitCount: number }) => {
 };
 
 const Index = () => {
-  const { favorites, toggleFavorite, isFavorite } = useFavorites();
+  const { favorites, toggleFavorite } = useFavorites();
   const [search, setSearch] = useState("");
   const [donateOpen, setDonateOpen] = useState(true);
   const visitCount = useVisitCounter();
@@ -71,154 +71,153 @@ const Index = () => {
   const otherCategories = filtered.filter((c) => !favorites.includes(c.id));
 
   return (
-    <div className="flex min-h-screen flex-col items-center bg-background px-6 py-10 xl:py-16">
-      {/* Top Buttons */}
-      <div className="mb-6 flex w-full max-w-5xl flex-col gap-3 sm:flex-row">
-        <button
-          onClick={() => setDonateOpen(true)}
-          className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-primary/30 bg-primary/10 px-4 py-3 font-display text-sm font-bold tracking-wider text-primary transition-all duration-200 hover:bg-primary/20 hover:shadow-[var(--shadow-glow)]"
-        >
-          <Heart className="h-5 w-5" style={{ fill: "hsl(var(--primary))" }} />
-          Ajude a manter o app — R$1 ⚓
-        </button>
-        <button
-          onClick={() => setChangelogOpen(true)}
-          className="flex items-center justify-center gap-2 rounded-lg border border-border bg-card px-4 py-3 font-display text-sm font-bold tracking-wider text-primary transition-all duration-200 hover:border-primary hover:shadow-[var(--shadow-glow)]"
-        >
-          <RefreshCw className="h-5 w-5" />
-          Ver Novidades
-        </button>
-      </div>
-
-      {/* Clock */}
-      <div className="mb-8 w-full max-w-5xl flex justify-end">
-        <TvClock />
-      </div>
-
-      {/* Header */}
-      <motion.header
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="mb-10 flex flex-col items-center gap-3 xl:mb-14"
-      >
-        <div className="flex items-center gap-3">
-          <Anchor className="h-8 w-8 text-primary xl:h-10 xl:w-10" />
-          <h1 className="font-display text-3xl font-black tracking-widest text-gradient-gold xl:text-5xl">
-            ÂNCORA TV
-          </h1>
-        </div>
-        <p className="font-body text-sm text-muted-foreground xl:text-base">
-          Ahoy, Mateys! Selecione uma categoria. Pressione <kbd className="rounded border border-border bg-secondary px-1.5 py-0.5 font-display text-xs text-foreground">F</kbd> para favoritar.
-        </p>
-      </motion.header>
-
-      {/* Search */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="w-full max-w-md mb-8"
-      >
-        <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-          <input
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value.slice(0, 50))}
-            placeholder="Buscar categoria..."
-            className="w-full rounded-lg border-2 border-border bg-card py-3 pl-12 pr-4 font-body text-sm text-foreground placeholder:text-muted-foreground outline-none transition-colors duration-200 focus:border-primary"
-          />
-        </div>
-      </motion.div>
-      {/* Favorites Section */}
-      {favCategories.length > 0 && (
-        <section className="w-full max-w-5xl mb-8">
-          <div className="flex items-center gap-2 mb-4">
-            <Star className="h-5 w-5 text-primary" style={{ fill: "hsl(var(--primary))" }} />
-            <h2 className="font-display text-lg font-bold tracking-wider text-foreground xl:text-xl">
-              Favoritos
-            </h2>
+    <div className="relative flex min-h-screen flex-col bg-background bg-mesh">
+      {/* Top bar */}
+      <div className="glass-panel sticky top-0 z-30 border-b border-border/50 px-4 py-3 sm:px-6">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <Anchor className="h-6 w-6 text-primary" />
+            <h1 className="font-display text-lg font-bold tracking-wide text-gradient-gold sm:text-xl">
+              ÂNCORA TV
+            </h1>
           </div>
-          <div className="grid w-full grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4 xl:gap-6">
-            {favCategories.map((cat, i) => (
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setChangelogOpen(true)}
+              className="flex items-center gap-1.5 rounded-xl bg-secondary px-3 py-1.5 font-body text-xs font-medium text-muted-foreground transition-all hover:text-foreground"
+            >
+              <RefreshCw className="h-3.5 w-3.5" />
+              <span className="hidden sm:inline">Novidades</span>
+            </button>
+            <TvClock />
+          </div>
+        </div>
+      </div>
+
+      {/* Main content */}
+      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-4 py-6 sm:px-6 sm:py-8">
+        {/* Donate Banner */}
+        <motion.button
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          onClick={() => setDonateOpen(true)}
+          className="mb-6 flex w-full items-center justify-center gap-2 rounded-2xl border border-primary/20 bg-primary/5 px-4 py-3 font-body text-sm font-medium text-primary transition-all duration-200 hover:bg-primary/10 hover:shadow-[var(--shadow-glow)]"
+        >
+          <Heart className="h-4 w-4" style={{ fill: "hsl(var(--primary))" }} />
+          Ajude a manter o app — Contribua com R$1 ⚓
+        </motion.button>
+
+        {/* Search */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+          className="mb-8"
+        >
+          <div className="relative mx-auto max-w-lg">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value.slice(0, 50))}
+              placeholder="Buscar categoria..."
+              className="w-full rounded-2xl border border-border bg-card/50 py-3 pl-11 pr-4 font-body text-sm text-foreground placeholder:text-muted-foreground outline-none backdrop-blur-sm transition-all duration-200 focus:border-primary/50 focus:bg-card"
+            />
+          </div>
+        </motion.div>
+
+        {/* Favorites Section */}
+        {favCategories.length > 0 && (
+          <section className="mb-8">
+            <div className="flex items-center gap-2 mb-4">
+              <Star className="h-4 w-4 text-primary" style={{ fill: "hsl(var(--primary))" }} />
+              <h2 className="font-display text-base font-semibold tracking-wide text-foreground">
+                Favoritos
+              </h2>
+            </div>
+            <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5 xl:grid-cols-6 xl:gap-4">
+              {favCategories.map((cat, i) => (
+                <CategoryCard
+                  key={cat.id}
+                  category={cat}
+                  index={i}
+                  isFavorite
+                  onToggleFavorite={toggleFavorite}
+                />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* All Categories */}
+        <section className="flex-1">
+          {favCategories.length > 0 && (
+            <h2 className="font-display text-base font-semibold tracking-wide text-muted-foreground mb-4">
+              Todas as categorias
+            </h2>
+          )}
+          <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5 xl:grid-cols-6 xl:gap-4">
+            {otherCategories.map((cat, i) => (
               <CategoryCard
                 key={cat.id}
                 category={cat}
                 index={i}
-                isFavorite
+                isFavorite={false}
                 onToggleFavorite={toggleFavorite}
               />
             ))}
           </div>
         </section>
-      )}
-
-      {/* All Categories */}
-      <section className="w-full max-w-5xl">
-        {favCategories.length > 0 && (
-          <h2 className="font-display text-lg font-bold tracking-wider text-muted-foreground mb-4 xl:text-xl">
-            Todas as categorias
-          </h2>
-        )}
-        <div className="grid w-full grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4 xl:gap-6">
-          {otherCategories.map((cat, i) => (
-            <CategoryCard
-              key={cat.id}
-              category={cat}
-              index={i}
-              isFavorite={false}
-              onToggleFavorite={toggleFavorite}
-            />
-          ))}
-        </div>
-      </section>
+      </main>
 
       {/* Footer */}
-      <footer className="mt-12 flex flex-col items-center gap-3 text-center xl:mt-16">
-        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-          <Users className="h-4 w-4" />
-          <span>{visitCount.toLocaleString("pt-BR")} acessos</span>
-        </div>
-
-        <div className="flex items-center gap-3">
-          {canInstall && (
+      <footer className="glass-panel border-t border-border/50 px-4 py-4 sm:px-6">
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 sm:flex-row sm:justify-between">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <Users className="h-3.5 w-3.5" />
+              <span>{visitCount.toLocaleString("pt-BR")} acessos</span>
+            </div>
+            <span className="text-xs text-muted-foreground/50">•</span>
+            <p className="text-xs text-muted-foreground">
+              por Uriel da Fonseca Fortunato
+            </p>
+          </div>
+          <div className="flex items-center gap-2">
+            {canInstall && (
+              <button
+                onClick={install}
+                className="flex items-center gap-1.5 rounded-xl bg-secondary px-3 py-1.5 font-body text-xs font-medium text-muted-foreground transition-all hover:text-foreground"
+              >
+                <Download className="h-3.5 w-3.5" />
+                Instalar
+              </button>
+            )}
+            {canShare && (
+              <button
+                onClick={share}
+                className="flex items-center gap-1.5 rounded-xl bg-secondary px-3 py-1.5 font-body text-xs font-medium text-muted-foreground transition-all hover:text-foreground"
+              >
+                <Share2 className="h-3.5 w-3.5" />
+                Compartilhar
+              </button>
+            )}
             <button
-              onClick={install}
-              className="flex items-center gap-1.5 rounded-lg border border-border bg-card px-4 py-2 font-display text-xs font-bold tracking-wider text-primary transition-all duration-200 hover:border-primary hover:shadow-[var(--shadow-glow)]"
+              onClick={() => setDonateOpen(true)}
+              className="flex items-center gap-1.5 rounded-xl bg-primary/10 px-3 py-1.5 font-body text-xs font-medium text-primary transition-all hover:bg-primary/20"
             >
-              <Download className="h-4 w-4" />
-              Instalar App
+              <Heart className="h-3.5 w-3.5" style={{ fill: "hsl(var(--primary))" }} />
+              Doar
             </button>
-          )}
-          {canShare && (
-            <button
-              onClick={share}
-              className="flex items-center gap-1.5 rounded-lg border border-border bg-card px-4 py-2 font-display text-xs font-bold tracking-wider text-primary transition-all duration-200 hover:border-primary hover:shadow-[var(--shadow-glow)]"
-            >
-              <Share2 className="h-4 w-4" />
-              Compartilhar
-            </button>
-          )}
+          </div>
         </div>
-
-        <p className="text-xs text-muted-foreground">
-          Desenvolvido por Uriel da Fonseca Fortunato
-        </p>
-        <button
-          onClick={() => setDonateOpen(true)}
-          className="flex items-center gap-1.5 rounded-lg border border-border bg-card px-4 py-2 font-display text-xs font-bold tracking-wider text-primary transition-all duration-200 hover:border-primary hover:shadow-[var(--shadow-glow)]"
-        >
-          <Heart className="h-4 w-4" style={{ fill: "hsl(var(--primary))" }} />
-          Ajude o Desenvolvedor
-        </button>
       </footer>
 
       {/* Donate Dialog */}
       <Dialog open={donateOpen} onOpenChange={setDonateOpen}>
         <DialogContent className="border-border bg-card sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 font-display text-lg tracking-wider text-primary">
+            <DialogTitle className="flex items-center gap-2 font-display text-lg tracking-wide text-primary">
               <Heart className="h-5 w-5" style={{ fill: "hsl(var(--primary))" }} />
               Ajude o Desenvolvedor
             </DialogTitle>
@@ -227,7 +226,6 @@ const Index = () => {
             </DialogDescription>
           </DialogHeader>
           <PixDonateContent visitCount={visitCount} />
-
         </DialogContent>
       </Dialog>
 
