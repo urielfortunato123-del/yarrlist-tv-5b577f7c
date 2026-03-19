@@ -176,7 +176,7 @@ const Index = () => {
       </main>
 
       {/* Footer */}
-      <footer className="glass-panel border-t border-border/50 px-4 py-4 sm:px-6">
+      <footer className="glass-panel relative z-10 border-t border-border/50 px-4 py-4 sm:px-6">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-3 sm:flex-row sm:justify-between">
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
