@@ -187,7 +187,7 @@ const Index = () => {
               Ajude o Desenvolvedor
             </DialogTitle>
             <DialogDescription className="text-muted-foreground">
-              Se o YarrList TV te ajuda, considere fazer uma contribuição via PIX para manter o programa funcionando! ⚓
+              Ajude a manter o YarrList TV funcionando! Com apenas R$1 você já faz a diferença. Contribua via PIX! ⚓
             </DialogDescription>
           </DialogHeader>
           <PixDonateContent visitCount={visitCount} />
