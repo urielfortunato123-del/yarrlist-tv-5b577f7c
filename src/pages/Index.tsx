@@ -9,7 +9,7 @@ import { Anchor, Star, Search, Heart, Users, Copy, Check } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import pixQrCode from "@/assets/pix-qrcode.png";
 
-const PIX_CODE = "00020126360014BR.GOV.BCB.PIX0114+5514976006620520400005303986540520.005802BR5901N6001C62130509AJUDEODEV6304BE1A";
+const PIX_CODE = "00020126330014BR.GOV.BCB.PIX01113638483487152040000530398654041.005802BR5901N6001C62140510YARRLISTTV63045AC";
 
 const PixDonateContent = ({ visitCount }: { visitCount: number }) => {
   const [copied, setCopied] = useState(false);
@@ -73,7 +73,7 @@ const Index = () => {
         className="mb-6 flex w-full max-w-5xl items-center justify-center gap-2 rounded-lg border border-primary/30 bg-primary/10 px-4 py-3 font-display text-sm font-bold tracking-wider text-primary transition-all duration-200 hover:bg-primary/20 hover:shadow-[var(--shadow-glow)]"
       >
         <Heart className="h-5 w-5" style={{ fill: "hsl(var(--primary))" }} />
-        Ajude o Desenvolvedor — Contribua via PIX ⚓
+        Ajude a manter o app — Contribua com R$1 ⚓
       </button>
 
       {/* Clock */}
@@ -187,7 +187,7 @@ const Index = () => {
               Ajude o Desenvolvedor
             </DialogTitle>
             <DialogDescription className="text-muted-foreground">
-              Se o YarrList TV te ajuda, considere fazer uma contribuição via PIX para manter o programa funcionando! ⚓
+              Ajude a manter o YarrList TV funcionando! Com apenas R$1 você já faz a diferença. Contribua via PIX! ⚓
             </DialogDescription>
           </DialogHeader>
           <PixDonateContent visitCount={visitCount} />
