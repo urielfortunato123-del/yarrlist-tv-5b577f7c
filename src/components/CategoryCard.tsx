@@ -112,9 +112,9 @@ const CategoryCard = ({ category, index, isFavorite, onToggleFavorite }: Categor
 
       {/* Name */}
       <span
-        className="relative z-10 text-center font-display text-xs font-semibold tracking-wide xl:text-sm"
+        className="relative z-10 text-center font-display text-xs font-semibold tracking-wide xl:text-sm text-foreground"
         style={{
-          color: focused ? `hsl(${category.color})` : 'hsl(0 0% 90%)',
+          color: focused ? `hsl(${category.color})` : undefined,
         }}
       >
         {category.name}
