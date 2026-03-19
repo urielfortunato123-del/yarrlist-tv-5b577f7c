@@ -1,23 +1,70 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { Download, Share2, Sparkles } from "lucide-react";
+import { Download, Share2, Sparkles, RefreshCw } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
-const CHANGELOG_VERSION = "1.1.0";
 const STORAGE_KEY = "ancora-changelog-seen";
 
+type UpdateItem = { icon: string; title: string; description: string };
+type AppUpdate = { version: string; title: string; items: UpdateItem[]; created_at: string };
+
+const iconMap: Record<string, React.ElementType> = {
+  download: Download,
+  share: Share2,
+  sparkles: Sparkles,
+};
+
 export function ChangelogDialog({ externalOpen, onExternalClose }: { externalOpen?: boolean; onExternalClose?: () => void }) {
-  const seen = localStorage.getItem(STORAGE_KEY);
-  const [internalOpen, setInternalOpen] = useState(seen !== CHANGELOG_VERSION);
-  
-  const open = externalOpen || internalOpen;
+  const [update, setUpdate] = useState<AppUpdate | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [autoOpen, setAutoOpen] = useState(false);
+
+  const fetchLatest = async () => {
+    setLoading(true);
+    const { data } = await supabase
+      .from("app_updates")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .single();
+    setLoading(false);
+
+    if (data) {
+      const parsed: AppUpdate = {
+        version: data.version,
+        title: data.title,
+        items: data.items as unknown as UpdateItem[],
+        created_at: data.created_at,
+      };
+      setUpdate(parsed);
+
+      const seen = localStorage.getItem(STORAGE_KEY);
+      if (seen !== parsed.version) {
+        setAutoOpen(true);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchLatest();
+  }, []);
+
+  // Re-fetch when user clicks the button
+  useEffect(() => {
+    if (externalOpen) fetchLatest();
+  }, [externalOpen]);
+
+  const open = externalOpen || autoOpen;
 
   const handleClose = (value: boolean) => {
-    if (!value) {
-      localStorage.setItem(STORAGE_KEY, CHANGELOG_VERSION);
+    if (!value && update) {
+      localStorage.setItem(STORAGE_KEY, update.version);
+      setAutoOpen(false);
       onExternalClose?.();
     }
-    setInternalOpen(value);
   };
+
+  if (!update) return null;
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
@@ -25,40 +72,31 @@ export function ChangelogDialog({ externalOpen, onExternalClose }: { externalOpe
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 font-display text-lg tracking-wider text-primary">
             <Sparkles className="h-5 w-5" />
-            Novidades do Âncora TV!
+            {update.title}
           </DialogTitle>
           <DialogDescription className="text-muted-foreground">
-            Confira o que há de novo nesta atualização ⚓
+            Versão {update.version} — Confira o que há de novo! ⚓
           </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-4 py-4">
-          <div className="flex items-start gap-3 rounded-lg border border-border bg-secondary p-3">
-            <Download className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
-            <div>
-              <p className="font-display text-sm font-bold tracking-wider text-foreground">Instale no Celular</p>
-              <p className="font-body text-xs text-muted-foreground">
-                Agora você pode instalar o Âncora TV direto no seu celular como um app! Basta clicar em "Instalar App" no rodapé.
-              </p>
+          {loading && (
+            <div className="flex items-center justify-center gap-2 py-4 text-sm text-muted-foreground">
+              <RefreshCw className="h-4 w-4 animate-spin" />
+              Verificando atualizações...
             </div>
-          </div>
-          <div className="flex items-start gap-3 rounded-lg border border-border bg-secondary p-3">
-            <Share2 className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
-            <div>
-              <p className="font-display text-sm font-bold tracking-wider text-foreground">Compartilhe com Amigos</p>
-              <p className="font-body text-xs text-muted-foreground">
-                Use o botão "Compartilhar" no rodapé para enviar o Âncora TV para seus amigos via WhatsApp, Telegram e mais!
-              </p>
-            </div>
-          </div>
-          <div className="flex items-start gap-3 rounded-lg border border-border bg-secondary p-3">
-            <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
-            <div>
-              <p className="font-display text-sm font-bold tracking-wider text-foreground">Novo Nome</p>
-              <p className="font-body text-xs text-muted-foreground">
-                O app agora se chama Âncora TV! Mesmo conteúdo, nova identidade. ⚓
-              </p>
-            </div>
-          </div>
+          )}
+          {!loading && update.items.map((item, i) => {
+            const Icon = iconMap[item.icon] || Sparkles;
+            return (
+              <div key={i} className="flex items-start gap-3 rounded-lg border border-border bg-secondary p-3">
+                <Icon className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+                <div>
+                  <p className="font-display text-sm font-bold tracking-wider text-foreground">{item.title}</p>
+                  <p className="font-body text-xs text-muted-foreground">{item.description}</p>
+                </div>
+              </div>
+            );
+          })}
         </div>
         <button
           onClick={() => handleClose(false)}

@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      app_updates: {
+        Row: {
+          created_at: string
+          id: string
+          items: Json
+          title: string
+          version: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          items?: Json
+          title: string
+          version: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          items?: Json
+          title?: string
+          version?: string
+        }
+        Relationships: []
+      }
       visit_counter: {
         Row: {
           count: number
