@@ -72,10 +72,13 @@ const Index = () => {
   const otherCategories = filtered.filter((c) => !favorites.includes(c.id));
 
   return (
-    <div className="relative flex min-h-screen flex-col bg-background bg-mesh">
+    <div className="relative flex min-h-screen flex-col bg-wallpaper">
+      {/* Overlay for readability */}
+      <div className="pointer-events-none fixed inset-0 bg-background/70" />
+
       {/* Top bar */}
       <div className="glass-panel sticky top-0 z-30 border-b border-border/50 px-4 py-3 sm:px-6">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3">
+        <div className="relative z-10 mx-auto flex max-w-6xl items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
             <Anchor className="h-6 w-6 text-primary" />
             <h1 className="font-display text-lg font-bold tracking-wide text-gradient-gold sm:text-xl">
@@ -83,6 +86,7 @@ const Index = () => {
             </h1>
           </div>
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <button
               onClick={() => setChangelogOpen(true)}
               className="flex items-center gap-1.5 rounded-xl bg-secondary px-3 py-1.5 font-body text-xs font-medium text-muted-foreground transition-all hover:text-foreground"
