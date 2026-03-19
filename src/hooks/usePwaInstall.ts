@@ -47,8 +47,8 @@ export function useShareApp() {
     if (!canShare) return;
     try {
       await navigator.share({
-        title: "YarrList TV",
-        text: "Ahoy! Confira o YarrList TV ⚓",
+        title: "Âncora TV",
+        text: "Ahoy! Confira o Âncora TV ⚓",
         url: window.location.origin,
       });
     } catch {

@@ -24,9 +24,9 @@ export default defineConfig(({ mode }) => ({
         globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
       },
       manifest: {
-        name: "YarrList TV",
-        short_name: "YarrList",
-        description: "Ahoy, Mateys! Sua lista de categorias pirata.",
+        name: "Âncora TV",
+        short_name: "Âncora TV",
+        description: "Ahoy, Mateys! Sua lista de categorias.",
         theme_color: "#d4a017",
         background_color: "#0a0a0a",
         display: "standalone",

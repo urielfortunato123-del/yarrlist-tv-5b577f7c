@@ -94,7 +94,7 @@ const Index = () => {
         <div className="flex items-center gap-3">
           <Anchor className="h-8 w-8 text-primary xl:h-10 xl:w-10" />
           <h1 className="font-display text-3xl font-black tracking-widest text-gradient-gold xl:text-5xl">
-            YARRLIST TV
+            ÂNCORA TV
           </h1>
         </div>
         <p className="font-body text-sm text-muted-foreground xl:text-base">
@@ -212,7 +212,7 @@ const Index = () => {
               Ajude o Desenvolvedor
             </DialogTitle>
             <DialogDescription className="text-muted-foreground">
-              Ajude a manter o YarrList TV funcionando! Com apenas R$1 você já faz a diferença. Contribua via PIX! ⚓
+              Ajude a manter o Âncora TV funcionando! Com apenas R$1 você já faz a diferença. Contribua via PIX! ⚓
             </DialogDescription>
           </DialogHeader>
           <PixDonateContent visitCount={visitCount} />
