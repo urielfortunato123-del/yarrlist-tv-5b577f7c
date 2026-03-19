@@ -100,7 +100,7 @@ const Index = () => {
       </div>
 
       {/* Main content */}
-      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-4 py-6 sm:px-6 sm:py-8">
+      <main className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col px-4 py-6 sm:px-6 sm:py-8">
         {/* Donate Banner */}
         <motion.button
           initial={{ opacity: 0, y: -10 }}
