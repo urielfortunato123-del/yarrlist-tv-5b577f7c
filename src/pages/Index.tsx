@@ -9,7 +9,7 @@ import { Anchor, Star, Search, Heart, Users, Copy, Check } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import pixQrCode from "@/assets/pix-qrcode.png";
 
-const PIX_CODE = "00020126360014BR.GOV.BCB.PIX0114+5514976006620520400005303986540520.005802BR5901N6001C62130509AJUDEODEV6304BE1A";
+const PIX_CODE = "00020126330014BR.GOV.BCB.PIX01113638483487152040000530398654041.005802BR5901N6001C62140510YARRLISTTV63045AC";
 
 const PixDonateContent = ({ visitCount }: { visitCount: number }) => {
   const [copied, setCopied] = useState(false);
