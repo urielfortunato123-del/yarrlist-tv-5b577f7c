@@ -56,6 +56,8 @@ const Index = () => {
   const [search, setSearch] = useState("");
   const [donateOpen, setDonateOpen] = useState(true);
   const visitCount = useVisitCounter();
+  const { canInstall, install } = usePwaInstall();
+  const { canShare, share } = useShareApp();
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
