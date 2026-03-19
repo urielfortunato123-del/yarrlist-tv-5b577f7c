@@ -16,7 +16,6 @@ const CategoryCard = ({ category, index, isFavorite, onToggleFavorite }: Categor
   const Icon = category.icon;
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    // Toggle favorite with "f" key
     if (e.key === "f" || e.key === "F") {
       e.preventDefault();
       onToggleFavorite(category.id);
@@ -56,70 +55,76 @@ const CategoryCard = ({ category, index, isFavorite, onToggleFavorite }: Categor
       onKeyDown={handleKeyDown}
       onFocus={() => setFocused(true)}
       onBlur={() => setFocused(false)}
-      initial={{ opacity: 0, y: 30, scale: 0.9 }}
+      initial={{ opacity: 0, y: 20, scale: 0.95 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.5, delay: index * 0.07, ease: [0.25, 0.46, 0.45, 0.94] }}
-      whileHover={{ scale: 1.05 }}
-      className="group relative flex flex-col items-center justify-center gap-4 rounded-lg border-2 bg-card p-6 transition-[border-color,box-shadow] duration-300 ease-out focus:outline-none xl:p-8"
+      transition={{ duration: 0.4, delay: index * 0.05, ease: [0.25, 0.46, 0.45, 0.94] }}
+      whileHover={{ scale: 1.06, y: -4 }}
+      whileTap={{ scale: 0.98 }}
+      className="group relative flex aspect-square flex-col items-center justify-center gap-3 overflow-hidden rounded-2xl border border-transparent transition-all duration-300 ease-out focus:outline-none xl:gap-4"
       style={{
-        borderColor: focused ? `hsl(${category.color})` : undefined,
+        background: `linear-gradient(145deg, hsl(${category.color} / 0.2) 0%, hsl(${category.color} / 0.05) 100%)`,
+        borderColor: focused ? `hsl(${category.color} / 0.6)` : 'hsl(220 15% 16%)',
         boxShadow: focused
-          ? `0 0 30px hsl(${category.color} / 0.4), 0 0 60px hsl(${category.color} / 0.15), inset 0 0 20px hsl(${category.color} / 0.05)`
-          : undefined,
-        transform: focused ? "scale(1.1)" : undefined,
+          ? `0 0 30px hsl(${category.color} / 0.3), 0 8px 32px hsl(${category.color} / 0.15)`
+          : '0 2px 12px hsl(0 0% 0% / 0.2)',
       }}
     >
+      {/* Background glow effect */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        style={{
+          background: `radial-gradient(circle at 50% 40%, hsl(${category.color} / 0.25) 0%, transparent 70%)`,
+        }}
+      />
+
       {/* Favorite button */}
       <button
         onClick={handleFavClick}
-        className="absolute top-3 right-3 z-10 rounded-full p-1.5 transition-all duration-200 hover:scale-125 focus:outline-none"
+        className="absolute top-2.5 right-2.5 z-10 rounded-full p-1.5 transition-all duration-200 hover:scale-125 focus:outline-none"
         tabIndex={-1}
         aria-label={isFavorite ? "Remover dos favoritos" : "Adicionar aos favoritos"}
       >
         <Star
-          className="h-5 w-5 transition-all duration-200"
+          className="h-4 w-4 transition-all duration-200 xl:h-5 xl:w-5"
           style={{
             color: isFavorite ? `hsl(${category.color})` : "hsl(var(--muted-foreground))",
             fill: isFavorite ? `hsl(${category.color})` : "none",
-            filter: isFavorite ? `drop-shadow(0 0 4px hsl(${category.color} / 0.5))` : undefined,
+            filter: isFavorite ? `drop-shadow(0 0 6px hsl(${category.color} / 0.6))` : undefined,
           }}
         />
       </button>
 
-      {/* Glow ring */}
-      {focused && (
-        <div
-          className="pointer-events-none absolute inset-0 rounded-lg animate-pulse-glow"
-          style={{ border: `2px solid hsl(${category.color} / 0.5)` }}
-        />
-      )}
-
+      {/* Icon */}
       <div
-        className="flex h-16 w-16 items-center justify-center rounded-xl transition-all duration-300 group-hover:scale-110 xl:h-20 xl:w-20"
+        className="relative flex h-14 w-14 items-center justify-center rounded-2xl transition-all duration-300 group-hover:scale-110 xl:h-16 xl:w-16"
         style={{
-          backgroundColor: focused
-            ? `hsl(${category.color} / 0.25)`
-            : `hsl(${category.color} / 0.15)`,
+          background: `linear-gradient(135deg, hsl(${category.color} / 0.3), hsl(${category.color} / 0.1))`,
         }}
       >
         <Icon
-          className="h-8 w-8 transition-all duration-300 xl:h-10 xl:w-10"
+          className="h-7 w-7 transition-all duration-300 xl:h-8 xl:w-8"
           style={{
             color: `hsl(${category.color})`,
-            filter: focused ? `drop-shadow(0 0 8px hsl(${category.color} / 0.6))` : undefined,
+            filter: `drop-shadow(0 0 8px hsl(${category.color} / 0.4))`,
           }}
         />
       </div>
+
+      {/* Name */}
       <span
-        className="font-display text-sm font-bold tracking-wider xl:text-base transition-colors duration-300"
-        style={{ color: focused ? `hsl(${category.color})` : undefined }}
+        className="relative z-10 text-center font-display text-xs font-semibold tracking-wide xl:text-sm"
+        style={{
+          color: focused ? `hsl(${category.color})` : 'hsl(0 0% 90%)',
+        }}
       >
         {category.name}
       </span>
 
+      {/* Focus indicator */}
       {focused && (
-        <div
-          className="absolute -bottom-2 left-1/2 -translate-x-1/2 h-1 w-10 rounded-full"
+        <motion.div
+          layoutId="focus-indicator"
+          className="absolute -bottom-px left-1/2 h-0.5 w-8 -translate-x-1/2 rounded-full"
           style={{ backgroundColor: `hsl(${category.color})` }}
         />
       )}
