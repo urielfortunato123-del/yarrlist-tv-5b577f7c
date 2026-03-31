@@ -156,7 +156,6 @@ const Index = () => {
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <CastButton />
             {canInstall && (
               <button
                 onClick={install}
