@@ -10,6 +10,7 @@ import { Anchor, Star, Search, Heart, Users, Download, Share2, RefreshCw } from 
 import { ChangelogDialog } from "@/components/ChangelogDialog";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { PixDonateDialog } from "@/components/PixDonateDialog";
+import CastButton from "@/components/CastButton";
 
 const Index = () => {
   const { favorites, toggleFavorite } = useFavorites();
@@ -155,6 +156,7 @@ const Index = () => {
             </p>
           </div>
           <div className="flex items-center gap-2">
+            <CastButton />
             {canInstall && (
               <button
                 onClick={install}
