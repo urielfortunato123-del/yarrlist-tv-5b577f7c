@@ -4,7 +4,7 @@ import { Heart, Copy, Check, Users } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import pixQrCode from "@/assets/pix-qrcode.png";
 
-const PIX_CODE = "00020126330014BR.GOV.BCB.PIX0111363848348715204000053039865802BR5901N6001C621205108ANCORATV630439EB";
+const PIX_CODE = "00020126330014BR.GOV.BCB.PIX0111363848348715204000053039865802BR5901N6001C62120508ANCORATV630439EB";
 
 const DONATION_VALUES = [
   { label: "Doar R$5", value: 5, highlight: false },
