@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { categories } from "@/data/categories";
 import CategoryCard from "@/components/CategoryCard";
 import TvClock from "@/components/TvClock";
@@ -6,57 +6,23 @@ import { useFavorites } from "@/hooks/useFavorites";
 import { useVisitCounter } from "@/hooks/useVisitCounter";
 import { usePwaInstall, useShareApp } from "@/hooks/usePwaInstall";
 import { motion } from "framer-motion";
-import { Anchor, Star, Search, Heart, Users, Copy, Check, Download, Share2, RefreshCw } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import pixQrCode from "@/assets/pix-qrcode.png";
+import { Anchor, Star, Search, Heart, Users, Download, Share2, RefreshCw } from "lucide-react";
 import { ChangelogDialog } from "@/components/ChangelogDialog";
 import { ThemeToggle } from "@/components/ThemeToggle";
-
-const PIX_CODE = "00020126330014BR.GOV.BCB.PIX01113638483487152040000530398654041.005802BR5901N6001C62140510YARRLISTTV63045AC";
-
-const PixDonateContent = ({ visitCount }: { visitCount: number }) => {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(PIX_CODE);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
-  return (
-    <div className="flex flex-col items-center gap-4 py-4">
-      <div className="rounded-2xl border border-border bg-white p-3">
-        <img src={pixQrCode} alt="QR Code PIX" className="h-48 w-48 object-contain" />
-      </div>
-      <p className="text-center font-body text-sm text-muted-foreground">
-        Escaneie o QR Code acima com seu app de banco para contribuir via PIX.
-      </p>
-      <div className="w-full">
-        <p className="mb-1 text-center font-body text-xs font-semibold text-muted-foreground">Pix Copia-e-cola:</p>
-        <div className="flex items-center gap-2 rounded-xl border border-border bg-secondary p-2">
-          <p className="flex-1 break-all text-center font-mono text-[10px] text-foreground">{PIX_CODE}</p>
-          <button
-            onClick={handleCopy}
-            className="shrink-0 rounded-lg border border-border bg-card p-1.5 text-muted-foreground transition-colors hover:text-primary"
-            title="Copiar código PIX"
-          >
-            {copied ? <Check className="h-4 w-4 text-emerald-400" /> : <Copy className="h-4 w-4" />}
-          </button>
-        </div>
-        {copied && <p className="mt-1 text-center text-xs text-emerald-400">Copiado!</p>}
-      </div>
-      <div className="flex items-center gap-2 text-xs text-muted-foreground">
-        <Users className="h-4 w-4" />
-        <span>Já são <strong className="text-primary">{visitCount.toLocaleString("pt-BR")}</strong> acessos!</span>
-      </div>
-    </div>
-  );
-};
+import { PixDonateDialog } from "@/components/PixDonateDialog";
 
 const Index = () => {
   const { favorites, toggleFavorite } = useFavorites();
   const [search, setSearch] = useState("");
-  const [donateOpen, setDonateOpen] = useState(true);
+  const [donateOpen, setDonateOpen] = useState(false);
+
+  // Auto-open donate popup after 35 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDonateOpen(true);
+    }, 35000);
+    return () => clearTimeout(timer);
+  }, []);
   const visitCount = useVisitCounter();
   const { canInstall, install } = usePwaInstall();
   const { canShare, share } = useShareApp();
@@ -218,21 +184,7 @@ const Index = () => {
         </div>
       </footer>
 
-      {/* Donate Dialog */}
-      <Dialog open={donateOpen} onOpenChange={setDonateOpen}>
-        <DialogContent className="border-border bg-card sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 font-display text-lg tracking-wide text-primary">
-              <Heart className="h-5 w-5" style={{ fill: "hsl(var(--primary))" }} />
-              Ajude o Desenvolvedor
-            </DialogTitle>
-            <DialogDescription className="text-muted-foreground">
-              Ajude a manter o Âncora TV funcionando! Com apenas R$1 você já faz a diferença. Contribua via PIX! ⚓
-            </DialogDescription>
-          </DialogHeader>
-          <PixDonateContent visitCount={visitCount} />
-        </DialogContent>
-      </Dialog>
+      <PixDonateDialog open={donateOpen} onOpenChange={setDonateOpen} visitCount={visitCount} />
 
       <ChangelogDialog externalOpen={changelogOpen} onExternalClose={() => setChangelogOpen(false)} />
     </div>
