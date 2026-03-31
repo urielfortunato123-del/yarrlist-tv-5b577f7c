@@ -185,6 +185,7 @@ const Index = () => {
         </div>
       </footer>
 
+      <CastButton />
       <PixDonateDialog open={donateOpen} onOpenChange={setDonateOpen} visitCount={visitCount} />
 
       <ChangelogDialog externalOpen={changelogOpen} onExternalClose={() => setChangelogOpen(false)} />
