@@ -14,7 +14,15 @@ import { PixDonateDialog } from "@/components/PixDonateDialog";
 const Index = () => {
   const { favorites, toggleFavorite } = useFavorites();
   const [search, setSearch] = useState("");
-  const [donateOpen, setDonateOpen] = useState(true);
+  const [donateOpen, setDonateOpen] = useState(false);
+
+  // Auto-open donate popup after 35 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDonateOpen(true);
+    }, 35000);
+    return () => clearTimeout(timer);
+  }, []);
   const visitCount = useVisitCounter();
   const { canInstall, install } = usePwaInstall();
   const { canShare, share } = useShareApp();
