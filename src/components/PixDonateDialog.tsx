@@ -40,7 +40,7 @@ export function PixDonateDialog({ open, onOpenChange, visitCount, todayDonors = 
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="border-border bg-gradient-to-b from-card to-card/95 sm:max-w-md max-h-[90vh] overflow-y-auto">
+      <DialogContent className="border-border bg-gradient-to-b from-card to-card/95 sm:max-w-2xl max-h-[95vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 font-display text-xl tracking-wide text-primary">
             ❤️ Ajude a manter o Âncora TV vivo!
