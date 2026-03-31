@@ -10,6 +10,7 @@ import { Anchor, Star, Search, Heart, Users, Download, Share2, RefreshCw } from 
 import { ChangelogDialog } from "@/components/ChangelogDialog";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { PixDonateDialog } from "@/components/PixDonateDialog";
+import CastButton from "@/components/CastButton";
 
 const Index = () => {
   const { favorites, toggleFavorite } = useFavorites();
