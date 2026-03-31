@@ -18,10 +18,24 @@ export default defineConfig(({ mode }) => ({
     mode === "development" && componentTagger(),
     VitePWA({
       registerType: "autoUpdate",
+      injectRegister: "auto",
       includeAssets: ["favicon.ico", "placeholder.svg"],
       workbox: {
+        cleanupOutdatedCaches: true,
+        clientsClaim: true,
+        skipWaiting: true,
         navigateFallbackDenylist: [/^\/~oauth/],
-        globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
+        globPatterns: ["**/*.{js,css,ico,png,svg,woff2}"],
+        runtimeCaching: [
+          {
+            urlPattern: ({ request }) => request.mode === "navigate",
+            handler: "NetworkFirst",
+            options: {
+              cacheName: "app-pages",
+              networkTimeoutSeconds: 3,
+            },
+          },
+        ],
       },
       manifest: {
         name: "Âncora TV",
