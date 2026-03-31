@@ -184,21 +184,7 @@ const Index = () => {
         </div>
       </footer>
 
-      {/* Donate Dialog */}
-      <Dialog open={donateOpen} onOpenChange={setDonateOpen}>
-        <DialogContent className="border-border bg-card sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 font-display text-lg tracking-wide text-primary">
-              <Heart className="h-5 w-5" style={{ fill: "hsl(var(--primary))" }} />
-              Ajude o Desenvolvedor
-            </DialogTitle>
-            <DialogDescription className="text-muted-foreground">
-              Ajude a manter o Âncora TV funcionando! Com apenas R$1 você já faz a diferença. Contribua via PIX! ⚓
-            </DialogDescription>
-          </DialogHeader>
-          <PixDonateContent visitCount={visitCount} />
-        </DialogContent>
-      </Dialog>
+      <PixDonateDialog open={donateOpen} onOpenChange={setDonateOpen} visitCount={visitCount} />
 
       <ChangelogDialog externalOpen={changelogOpen} onExternalClose={() => setChangelogOpen(false)} />
     </div>
