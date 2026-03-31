@@ -156,7 +156,6 @@ const Index = () => {
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <CastButton />
             {canInstall && (
               <button
                 onClick={install}
@@ -186,6 +185,7 @@ const Index = () => {
         </div>
       </footer>
 
+      <CastButton />
       <PixDonateDialog open={donateOpen} onOpenChange={setDonateOpen} visitCount={visitCount} />
 
       <ChangelogDialog externalOpen={changelogOpen} onExternalClose={() => setChangelogOpen(false)} />
