@@ -120,10 +120,10 @@ export function PixDonateDialog({ open, onOpenChange, visitCount, todayDonors = 
               className="shrink-0 rounded-xl border border-border bg-card p-2 text-muted-foreground transition-colors hover:text-primary"
               title="Copiar código PIX"
             >
-              {copied ? <Check className="h-4 w-4 text-emerald-500" /> : <Copy className="h-4 w-4" />}
+            {copied ? <Check className="h-4 w-4 text-primary" /> : <Copy className="h-4 w-4" />}
             </button>
           </div>
-          {copied && <p className="mt-1 text-center text-xs text-emerald-500 font-medium">Copiado!</p>}
+          {copied && <p className="mt-1 text-center text-xs text-primary font-medium">Copiado!</p>}
         </div>
 
         {/* Footer stats */}
