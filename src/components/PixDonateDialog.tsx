@@ -106,7 +106,7 @@ export function PixDonateDialog({ open, onOpenChange, visitCount, todayDonors = 
         {/* QR Code */}
         <div className="flex flex-col items-center gap-3 pt-1">
           <div className="rounded-2xl border border-border bg-white p-4">
-            <img src={pixQrCode} alt="QR Code PIX" className="h-52 w-52 object-contain" />
+            <img src={pixQrCode} alt="QR Code PIX" className="h-72 w-72 object-contain" />
           </div>
         </div>
 
