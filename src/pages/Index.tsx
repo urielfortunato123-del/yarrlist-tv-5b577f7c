@@ -5,8 +5,9 @@ import TvClock from "@/components/TvClock";
 import { useFavorites } from "@/hooks/useFavorites";
 import { useVisitCounter } from "@/hooks/useVisitCounter";
 import { usePwaInstall, useShareApp } from "@/hooks/usePwaInstall";
+import { useOnlineUsers } from "@/hooks/useOnlineUsers";
 import { motion } from "framer-motion";
-import { Anchor, Star, Search, Heart, Users, Download, Share2, RefreshCw } from "lucide-react";
+import { Anchor, Star, Search, Heart, Users, Download, Share2, RefreshCw, Radio } from "lucide-react";
 import { ChangelogDialog } from "@/components/ChangelogDialog";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { PixDonateDialog } from "@/components/PixDonateDialog";
@@ -25,6 +26,7 @@ const Index = () => {
     return () => clearTimeout(timer);
   }, []);
   const visitCount = useVisitCounter();
+  const onlineCount = useOnlineUsers();
   const { canInstall, install } = usePwaInstall();
   const { canShare, share } = useShareApp();
   const [changelogOpen, setChangelogOpen] = useState(false);
@@ -149,6 +151,11 @@ const Index = () => {
             <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
               <Users className="h-3.5 w-3.5" />
               <span>{visitCount.toLocaleString("pt-BR")} acessos</span>
+            </div>
+            <span className="text-xs text-muted-foreground/50">•</span>
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <Radio className="h-3.5 w-3.5 text-green-500 animate-pulse" />
+              <span>{onlineCount} online</span>
             </div>
             <span className="text-xs text-muted-foreground/50">•</span>
             <p className="text-xs text-muted-foreground">
