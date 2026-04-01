@@ -7,7 +7,7 @@ import { useVisitCounter } from "@/hooks/useVisitCounter";
 import { usePwaInstall, useShareApp } from "@/hooks/usePwaInstall";
 import { useOnlineUsers } from "@/hooks/useOnlineUsers";
 import { motion } from "framer-motion";
-import { Anchor, Star, Search, Heart, Users, Download, Share2, RefreshCw } from "lucide-react";
+import { Anchor, Star, Search, Heart, Users, Download, Share2, RefreshCw, Radio } from "lucide-react";
 import { ChangelogDialog } from "@/components/ChangelogDialog";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { PixDonateDialog } from "@/components/PixDonateDialog";
