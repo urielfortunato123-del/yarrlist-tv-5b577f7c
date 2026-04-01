@@ -5,6 +5,7 @@ import TvClock from "@/components/TvClock";
 import { useFavorites } from "@/hooks/useFavorites";
 import { useVisitCounter } from "@/hooks/useVisitCounter";
 import { usePwaInstall, useShareApp } from "@/hooks/usePwaInstall";
+import { useOnlineUsers } from "@/hooks/useOnlineUsers";
 import { motion } from "framer-motion";
 import { Anchor, Star, Search, Heart, Users, Download, Share2, RefreshCw } from "lucide-react";
 import { ChangelogDialog } from "@/components/ChangelogDialog";
