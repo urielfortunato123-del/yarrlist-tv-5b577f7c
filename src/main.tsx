@@ -32,16 +32,28 @@ if (isPreviewHost || isInIframe) {
       immediate: true,
       onRegisteredSW(_swUrl, registration) {
         if (!registration) return;
-        // Check for updates every 30s for faster propagation
         setInterval(() => {
           registration.update();
         }, 30 * 1000);
       },
       onNeedRefresh() {
-        // Auto-apply update without prompting the user
+        // Apply update immediately
         updateSW(true);
+        // Show toast after reload
+        sessionStorage.setItem("ancora-updated", "true");
       },
     });
+  });
+}
+
+// Check if we just updated and show notification
+if (sessionStorage.getItem("ancora-updated") === "true") {
+  sessionStorage.removeItem("ancora-updated");
+  // Dispatch custom event after React mounts
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      window.dispatchEvent(new CustomEvent("ancora-app-updated"));
+    }, 1500);
   });
 }
 
