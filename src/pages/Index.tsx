@@ -26,6 +26,7 @@ const Index = () => {
     return () => clearTimeout(timer);
   }, []);
   const visitCount = useVisitCounter();
+  const onlineCount = useOnlineUsers();
   const { canInstall, install } = usePwaInstall();
   const { canShare, share } = useShareApp();
   const [changelogOpen, setChangelogOpen] = useState(false);
