@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 export function useOnlineUsers() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1); // Start with 1 (self)
 
   useEffect(() => {
     const channel = supabase.channel("online-users", {
