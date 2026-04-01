@@ -153,6 +153,11 @@ const Index = () => {
               <span>{visitCount.toLocaleString("pt-BR")} acessos</span>
             </div>
             <span className="text-xs text-muted-foreground/50">•</span>
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <Radio className="h-3.5 w-3.5 text-green-500 animate-pulse" />
+              <span>{onlineCount} online</span>
+            </div>
+            <span className="text-xs text-muted-foreground/50">•</span>
             <p className="text-xs text-muted-foreground">
               por Uriel da Fonseca Fortunato
             </p>
