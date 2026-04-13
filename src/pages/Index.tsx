@@ -159,7 +159,7 @@ const Index = () => {
             </div>
             <span className="text-xs text-muted-foreground/50">•</span>
             <p className="text-xs text-muted-foreground">
-              por Uriel da Fonseca Fortunato
+              por Uriel da Fonseca Fortunato • v2.1
             </p>
           </div>
           <div className="flex items-center gap-2">
