@@ -2,23 +2,36 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.4";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
+
+type AdminRequest = {
+  password?: string;
+  version?: string;
+  action?: "verify" | "update";
+};
+
+const json = (body: Record<string, unknown>) =>
+  new Response(JSON.stringify(body), {
+    status: 200,
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
+  });
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
-    return new Response(null, { headers: corsHeaders });
+    return new Response("ok", { headers: corsHeaders });
   }
 
   try {
-    const { password, version } = await req.json();
+    const { password, version, action = "update" } = (await req.json()) as AdminRequest;
     const adminPassword = Deno.env.get("ADMIN_PASSWORD");
 
-    if (!adminPassword || password !== adminPassword) {
-      return new Response(JSON.stringify({ error: "Senha incorreta" }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+    if (!adminPassword || !password || password !== adminPassword) {
+      return json({ success: false, error: "Senha incorreta" });
+    }
+
+    if (action === "verify") {
+      return json({ success: true });
     }
 
     const newVersion = version || `${Date.now()}`;
@@ -34,19 +47,11 @@ Deno.serve(async (req) => {
       .eq("id", 1);
 
     if (error) {
-      return new Response(JSON.stringify({ error: error.message }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return json({ success: false, error: error.message });
     }
 
-    return new Response(JSON.stringify({ success: true, version: newVersion }), {
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+    return json({ success: true, version: newVersion });
   } catch (e) {
-    return new Response(JSON.stringify({ error: (e as Error).message }), {
-      status: 500,
-      headers: { ...corsHeaders, "Content-Type": "application/json" },
-    });
+    return json({ success: false, error: (e as Error).message || "Erro interno" });
   }
 });
