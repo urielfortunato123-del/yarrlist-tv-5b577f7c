@@ -78,7 +78,7 @@ const Index = () => {
           className="mb-6 flex w-full items-center justify-center gap-2 rounded-2xl border border-primary/20 bg-primary/5 px-4 py-3 font-body text-sm font-medium text-primary transition-all duration-200 hover:bg-primary/10 hover:shadow-[var(--shadow-glow)]"
         >
           <Heart className="h-4 w-4" style={{ fill: "hsl(var(--primary))" }} />
-          Ajude a manter o app — Contribua com R$1 ⚓
+          Ajude a manter o app — Colabore a partir de R$5 ⚓
         </motion.button>
 
         {/* Search */}
