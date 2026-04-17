@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { Lock, Zap, Check, AlertCircle, LogOut } from "lucide-react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 
 const SESSION_KEY = "ancora-admin-pw";
 
 export default function Admin() {
+  const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [authed, setAuthed] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -21,6 +23,18 @@ export default function Admin() {
     supabase.from("app_version").select("version").eq("id", 1).single()
       .then(({ data }) => data && setCurrentVersion(data.version));
   }, []);
+
+  // ESC sai do modo admin e volta pra Âncora TV
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        sessionStorage.removeItem(SESSION_KEY);
+        navigate("/");
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [navigate]);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
