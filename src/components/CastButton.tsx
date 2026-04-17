@@ -171,56 +171,112 @@ const CastButton = () => {
               className="relative mx-4 w-full max-w-xs rounded-2xl border border-border bg-card p-6 shadow-2xl"
             >
               <button
-                onClick={() => { setOpen(false); setShowMirrorTip(false); }}
+                onClick={closeAll}
                 className="absolute top-3 right-3 rounded-full p-1.5 text-muted-foreground transition-colors hover:text-foreground"
               >
                 <X className="h-4 w-4" />
               </button>
 
-              <div className="mb-5 text-center">
-                <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
-                  <Tv className="h-6 w-6 text-primary" />
-                </div>
-                <h3 className="font-display text-lg font-bold text-foreground">Assistir na TV</h3>
-                <p className="mt-1 font-body text-xs text-muted-foreground">
-                  Escolha como transmitir
-                </p>
-              </div>
+              {tutorial ? (
+                <>
+                  <div className="mb-4 flex items-center gap-2">
+                    <button
+                      onClick={() => { setTutorial(null); setCopied(false); }}
+                      className="rounded-full p-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                      aria-label="Voltar"
+                    >
+                      <ArrowLeft className="h-4 w-4" />
+                    </button>
+                    <h3 className="font-display text-base font-bold text-foreground">
+                      Espelhar em {TUTORIALS[tutorial].title}
+                    </h3>
+                  </div>
 
-              {status === "error" && (
-                <p className="mb-3 rounded-xl bg-destructive/10 px-3 py-2 text-center font-body text-xs text-destructive">
-                  Conecte a um Chromecast ou TV compatível primeiro.
-                </p>
+                  <ol className="mb-4 space-y-2">
+                    {TUTORIALS[tutorial].steps.map((step, i) => (
+                      <li key={i} className="flex gap-2 font-body text-xs text-foreground">
+                        <span className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-primary/15 text-[10px] font-bold text-primary">
+                          {i + 1}
+                        </span>
+                        <span className="leading-relaxed">{step}</span>
+                      </li>
+                    ))}
+                  </ol>
+
+                  <button
+                    onClick={copyTutorial}
+                    className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 font-body text-sm font-semibold text-primary-foreground transition-all hover:opacity-90"
+                  >
+                    {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                    {copied ? "Copiado!" : "Copiar instruções"}
+                  </button>
+                </>
+              ) : (
+                <>
+                  <div className="mb-5 text-center">
+                    <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                      <Tv className="h-6 w-6 text-primary" />
+                    </div>
+                    <h3 className="font-display text-lg font-bold text-foreground">Assistir na TV</h3>
+                    <p className="mt-1 font-body text-xs text-muted-foreground">
+                      Escolha como transmitir
+                    </p>
+                  </div>
+
+                  {status === "error" && (
+                    <p className="mb-3 rounded-xl bg-destructive/10 px-3 py-2 text-center font-body text-xs text-destructive">
+                      Conecte a um Chromecast ou TV compatível primeiro.
+                    </p>
+                  )}
+
+                  {status === "success" && (
+                    <p className="mb-3 rounded-xl bg-primary/10 px-3 py-2 text-center font-body text-xs text-primary">
+                      ✅ Transmitindo!
+                    </p>
+                  )}
+
+                  {showMirrorTip && (
+                    <div className="mb-3 rounded-xl border border-primary/30 bg-primary/10 px-3 py-2.5 text-center font-body text-xs text-foreground">
+                      📺 {mirrorMsg}
+                    </div>
+                  )}
+
+                  <div className="flex flex-col gap-2.5">
+                    <button
+                      onClick={handleCast}
+                      className="flex items-center gap-3 rounded-xl bg-primary px-4 py-3 font-body text-sm font-semibold text-primary-foreground transition-all hover:opacity-90"
+                    >
+                      <Tv className="h-4 w-4" />
+                      Transmitir (Chromecast)
+                    </button>
+                    <button
+                      onClick={handleMirror}
+                      className="flex items-center gap-3 rounded-xl border border-border bg-secondary px-4 py-3 font-body text-sm font-medium text-secondary-foreground transition-all hover:bg-accent hover:text-accent-foreground"
+                    >
+                      <Smartphone className="h-4 w-4" />
+                      Espelhar tela
+                    </button>
+
+                    <div className="mt-2 border-t border-border pt-3">
+                      <p className="mb-2 text-center font-body text-[11px] uppercase tracking-wider text-muted-foreground">
+                        Tutoriais por TV
+                      </p>
+                      <div className="grid grid-cols-3 gap-2">
+                        {(Object.keys(TUTORIALS) as Array<keyof typeof TUTORIALS>).map((key) => (
+                          <button
+                            key={key}
+                            onClick={() => setTutorial(key)}
+                            className="flex flex-col items-center gap-1 rounded-xl border border-border bg-secondary/50 px-2 py-2.5 font-body text-xs font-medium text-secondary-foreground transition-all hover:bg-accent hover:text-accent-foreground"
+                          >
+                            <BookOpen className="h-3.5 w-3.5" />
+                            {TUTORIALS[key].title}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </>
               )}
-
-              {status === "success" && (
-                <p className="mb-3 rounded-xl bg-primary/10 px-3 py-2 text-center font-body text-xs text-primary">
-                  ✅ Transmitindo!
-                </p>
-              )}
-
-              {showMirrorTip && (
-                <div className="mb-3 rounded-xl border border-primary/30 bg-primary/10 px-3 py-2.5 text-center font-body text-xs text-foreground">
-                  📺 {mirrorMsg}
-                </div>
-              )}
-
-              <div className="flex flex-col gap-2.5">
-                <button
-                  onClick={handleCast}
-                  className="flex items-center gap-3 rounded-xl bg-primary px-4 py-3 font-body text-sm font-semibold text-primary-foreground transition-all hover:opacity-90"
-                >
-                  <Tv className="h-4 w-4" />
-                  Transmitir (Chromecast)
-                </button>
-                <button
-                  onClick={handleMirror}
-                  className="flex items-center gap-3 rounded-xl border border-border bg-secondary px-4 py-3 font-body text-sm font-medium text-secondary-foreground transition-all hover:bg-accent hover:text-accent-foreground"
-                >
-                  <Smartphone className="h-4 w-4" />
-                  Espelhar tela
-                </button>
-              </div>
             </motion.div>
           </motion.div>
         )}
