@@ -38,6 +38,24 @@ export type Database = {
         }
         Relationships: []
       }
+      app_version: {
+        Row: {
+          id: number
+          updated_at: string
+          version: string
+        }
+        Insert: {
+          id?: number
+          updated_at?: string
+          version: string
+        }
+        Update: {
+          id?: number
+          updated_at?: string
+          version?: string
+        }
+        Relationships: []
+      }
       visit_counter: {
         Row: {
           count: number
