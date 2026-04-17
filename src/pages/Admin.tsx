@@ -24,6 +24,18 @@ export default function Admin() {
       .then(({ data }) => data && setCurrentVersion(data.version));
   }, []);
 
+  // ESC sai do modo admin e volta pra Âncora TV
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        sessionStorage.removeItem(SESSION_KEY);
+        navigate("/");
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [navigate]);
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (password.trim().length < 4) {
