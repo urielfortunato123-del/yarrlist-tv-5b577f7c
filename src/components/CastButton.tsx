@@ -116,7 +116,7 @@ const CastButton = () => {
               className="relative mx-4 w-full max-w-xs rounded-2xl border border-border bg-card p-6 shadow-2xl"
             >
               <button
-                onClick={() => setOpen(false)}
+                onClick={() => { setOpen(false); setShowMirrorTip(false); }}
                 className="absolute top-3 right-3 rounded-full p-1.5 text-muted-foreground transition-colors hover:text-foreground"
               >
                 <X className="h-4 w-4" />
