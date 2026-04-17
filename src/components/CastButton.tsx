@@ -74,13 +74,15 @@ const CastButton = () => {
       });
   };
 
+  const [showMirrorTip, setShowMirrorTip] = useState(false);
+
   const handleMirror = () => {
-    setOpen(false);
-    const msg = isSamsungTV()
-      ? "Use Smart View ou SmartThings para espelhar na sua TV Samsung."
-      : "Use a função 'Transmitir tela' do seu celular.";
-    alert(`📺 ${msg}`);
+    setShowMirrorTip(true);
   };
+
+  const mirrorMsg = isSamsungTV()
+    ? "Use Smart View ou SmartThings para espelhar na sua TV Samsung."
+    : "Use a função 'Transmitir tela' do seu celular (no menu rápido ou em Configurações).";
 
   return (
     <>
@@ -103,7 +105,7 @@ const CastButton = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm"
-            onClick={() => setOpen(false)}
+            onClick={() => { setOpen(false); setShowMirrorTip(false); }}
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -114,7 +116,7 @@ const CastButton = () => {
               className="relative mx-4 w-full max-w-xs rounded-2xl border border-border bg-card p-6 shadow-2xl"
             >
               <button
-                onClick={() => setOpen(false)}
+                onClick={() => { setOpen(false); setShowMirrorTip(false); }}
                 className="absolute top-3 right-3 rounded-full p-1.5 text-muted-foreground transition-colors hover:text-foreground"
               >
                 <X className="h-4 w-4" />
@@ -140,6 +142,12 @@ const CastButton = () => {
                 <p className="mb-3 rounded-xl bg-primary/10 px-3 py-2 text-center font-body text-xs text-primary">
                   ✅ Transmitindo!
                 </p>
+              )}
+
+              {showMirrorTip && (
+                <div className="mb-3 rounded-xl border border-primary/30 bg-primary/10 px-3 py-2.5 text-center font-body text-xs text-foreground">
+                  📺 {mirrorMsg}
+                </div>
               )}
 
               <div className="flex flex-col gap-2.5">
