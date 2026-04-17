@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Lock, Zap, Check, AlertCircle, LogOut } from "lucide-react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
@@ -6,25 +6,71 @@ import { supabase } from "@/integrations/supabase/client";
 
 const SESSION_KEY = "ancora-admin-pw";
 
+type AdminResponse = {
+  success: boolean;
+  version?: string;
+  error?: string;
+};
+
 export default function Admin() {
   const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [authed, setAuthed] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [checkingSession, setCheckingSession] = useState(true);
   const [status, setStatus] = useState<{ type: "success" | "error"; msg: string } | null>(null);
   const [currentVersion, setCurrentVersion] = useState<string>("");
 
-  useEffect(() => {
-    const saved = sessionStorage.getItem(SESSION_KEY);
-    if (saved) {
-      setPassword(saved);
-      setAuthed(true);
+  const callAdminFunction = useCallback(async (action: "verify" | "update", providedPassword: string) => {
+    const { data, error } = await supabase.functions.invoke("force-update", {
+      body: { password: providedPassword, action },
+    });
+
+    const response = data as AdminResponse | null;
+
+    if (error && !response) {
+      return {
+        success: false,
+        error: "Não foi possível falar com o backend.",
+      } satisfies AdminResponse;
     }
-    supabase.from("app_version").select("version").eq("id", 1).single()
+
+    return response ?? { success: false, error: "Erro ao processar a solicitação." };
+  }, []);
+
+  useEffect(() => {
+    supabase
+      .from("app_version")
+      .select("version")
+      .eq("id", 1)
+      .single()
       .then(({ data }) => data && setCurrentVersion(data.version));
   }, []);
 
-  // ESC sai do modo admin e volta pra Âncora TV
+  useEffect(() => {
+    const restoreSession = async () => {
+      const saved = sessionStorage.getItem(SESSION_KEY);
+      if (!saved) {
+        setCheckingSession(false);
+        return;
+      }
+
+      setPassword(saved);
+      const result = await callAdminFunction("verify", saved);
+
+      if (result.success) {
+        setAuthed(true);
+      } else {
+        sessionStorage.removeItem(SESSION_KEY);
+        setPassword("");
+      }
+
+      setCheckingSession(false);
+    };
+
+    void restoreSession();
+  }, [callAdminFunction]);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -32,19 +78,36 @@ export default function Admin() {
         navigate("/");
       }
     };
+
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, [navigate]);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (password.trim().length < 4) {
       setStatus({ type: "error", msg: "Digite a senha de admin." });
       return;
     }
+
+    setLoading(true);
+    setStatus(null);
+
+    const result = await callAdminFunction("verify", password);
+
+    if (!result.success) {
+      sessionStorage.removeItem(SESSION_KEY);
+      setAuthed(false);
+      setStatus({ type: "error", msg: result.error || "Senha incorreta." });
+      setLoading(false);
+      return;
+    }
+
     sessionStorage.setItem(SESSION_KEY, password);
     setAuthed(true);
     setStatus(null);
+    setLoading(false);
   };
 
   const handleLogout = () => {
@@ -57,26 +120,28 @@ export default function Admin() {
   const forceUpdate = async () => {
     setLoading(true);
     setStatus(null);
-    try {
-      const { data, error } = await supabase.functions.invoke("force-update", {
-        body: { password },
-      });
-      if (error || data?.error) {
-        const msg = data?.error || error?.message || "Erro ao atualizar";
-        setStatus({ type: "error", msg });
-        if (msg.toLowerCase().includes("senha")) {
-          sessionStorage.removeItem(SESSION_KEY);
-          setAuthed(false);
-        }
-      } else {
-        setStatus({ type: "success", msg: `Atualização disparada! Versão: ${data.version}` });
-        setCurrentVersion(data.version);
+
+    const result = await callAdminFunction("update", password);
+
+    if (!result.success) {
+      if (result.error?.toLowerCase().includes("senha")) {
+        sessionStorage.removeItem(SESSION_KEY);
+        setAuthed(false);
       }
-    } catch (e) {
-      setStatus({ type: "error", msg: (e as Error).message });
-    } finally {
+      setStatus({ type: "error", msg: result.error || "Erro ao atualizar." });
       setLoading(false);
+      return;
     }
+
+    if (result.version) {
+      setCurrentVersion(result.version);
+    }
+
+    setStatus({
+      type: "success",
+      msg: `Atualização disparada! Versão: ${result.version}`,
+    });
+    setLoading(false);
   };
 
   return (
@@ -93,13 +158,15 @@ export default function Admin() {
                 <Lock className="h-7 w-7 text-primary" />
               </div>
               <h1 className="font-display text-2xl font-bold text-foreground">Admin Âncora TV</h1>
-              <p className="mt-1 font-body text-sm text-muted-foreground">
-                Painel restrito
-              </p>
+              <p className="mt-1 font-body text-sm text-muted-foreground">Painel restrito</p>
             </div>
 
-            {!authed ? (
-              <form onSubmit={handleLogin} className="space-y-4">
+            {checkingSession ? (
+              <div className="rounded-xl border border-border bg-secondary/50 px-4 py-6 text-center font-body text-sm text-muted-foreground">
+                Verificando acesso...
+              </div>
+            ) : !authed ? (
+              <form onSubmit={(e) => void handleLogin(e)} className="space-y-4">
                 <input
                   type="password"
                   value={password}
@@ -115,22 +182,21 @@ export default function Admin() {
                 )}
                 <button
                   type="submit"
-                  className="w-full rounded-xl bg-primary px-4 py-3 font-body text-sm font-semibold text-primary-foreground transition-all hover:opacity-90"
+                  disabled={loading}
+                  className="w-full rounded-xl bg-primary px-4 py-3 font-body text-sm font-semibold text-primary-foreground transition-all hover:opacity-90 disabled:opacity-50"
                 >
-                  Entrar
+                  {loading ? "Entrando..." : "Entrar"}
                 </button>
               </form>
             ) : (
               <div className="space-y-4">
                 <div className="rounded-xl border border-border bg-secondary/50 px-4 py-3">
                   <p className="font-body text-xs text-muted-foreground">Versão atual</p>
-                  <p className="font-display text-lg font-bold text-foreground">
-                    {currentVersion || "—"}
-                  </p>
+                  <p className="font-display text-lg font-bold text-foreground">{currentVersion || "—"}</p>
                 </div>
 
                 <button
-                  onClick={forceUpdate}
+                  onClick={() => void forceUpdate()}
                   disabled={loading}
                   className="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3.5 font-body text-sm font-semibold text-primary-foreground transition-all hover:opacity-90 disabled:opacity-50"
                 >
