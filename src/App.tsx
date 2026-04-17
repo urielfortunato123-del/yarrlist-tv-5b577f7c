@@ -7,10 +7,13 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { toast } from "sonner";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import { useForceUpdate } from "./hooks/useForceUpdate";
 
 const queryClient = new QueryClient();
 
 const App = () => {
+  useForceUpdate();
+
   useEffect(() => {
     const handler = () => {
       toast("⚓ App atualizado!", {
