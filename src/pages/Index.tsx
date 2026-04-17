@@ -8,6 +8,7 @@ import { usePwaInstall, useShareApp } from "@/hooks/usePwaInstall";
 import { useOnlineUsers } from "@/hooks/useOnlineUsers";
 import { motion } from "framer-motion";
 import { Anchor, Star, Search, Heart, Users, Download, Share2, RefreshCw, Radio } from "lucide-react";
+import { Link } from "react-router-dom";
 import { ChangelogDialog } from "@/components/ChangelogDialog";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { PixDonateDialog } from "@/components/PixDonateDialog";
@@ -159,7 +160,15 @@ const Index = () => {
             </div>
             <span className="text-xs text-muted-foreground/50">•</span>
             <p className="text-xs text-muted-foreground">
-              por Uriel da Fonseca Fortunato • v2.2
+              por Uriel da Fonseca Fortunato •{" "}
+              <Link
+                to="/admin"
+                aria-label="Admin"
+                title="Admin"
+                className="text-muted-foreground/60 transition-colors hover:text-primary"
+              >
+                v2.2
+              </Link>
             </p>
           </div>
           <div className="flex items-center gap-2">
