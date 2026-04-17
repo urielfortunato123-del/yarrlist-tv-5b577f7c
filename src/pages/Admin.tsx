@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import { Lock, Zap, Check, AlertCircle, LogOut } from "lucide-react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 
 const SESSION_KEY = "ancora-admin-pw";
 
 export default function Admin() {
+  const navigate = useNavigate();
   const [password, setPassword] = useState("");
   const [authed, setAuthed] = useState(false);
   const [loading, setLoading] = useState(false);
