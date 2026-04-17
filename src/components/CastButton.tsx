@@ -1,6 +1,39 @@
 import { useState } from "react";
-import { Monitor, X, Tv, Smartphone } from "lucide-react";
+import { Monitor, X, Tv, Smartphone, BookOpen, Copy, Check, ArrowLeft } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+
+const TUTORIALS: Record<string, { title: string; steps: string[] }> = {
+  Samsung: {
+    title: "Samsung",
+    steps: [
+      "Conecte o celular e a TV na mesma rede Wi-Fi.",
+      "Na TV, abra o app SmartThings ou ative 'Smart View'.",
+      "No celular, deslize o painel rápido e toque em 'Smart View'.",
+      "Selecione sua TV Samsung na lista e confirme.",
+      "Abra o site Âncora TV no celular — a tela aparecerá na TV.",
+    ],
+  },
+  LG: {
+    title: "LG",
+    steps: [
+      "Conecte o celular e a TV LG na mesma rede Wi-Fi.",
+      "Na TV, abra 'Screen Share' (botão Home → Screen Share).",
+      "No celular Android, abra o painel rápido → 'Transmitir tela' (Cast).",
+      "Selecione sua TV LG na lista de dispositivos.",
+      "Aguarde a conexão e abra o Âncora TV no celular.",
+    ],
+  },
+  Roku: {
+    title: "Roku",
+    steps: [
+      "Na TV Roku, vá em Configurações → Sistema → Espelhamento de tela.",
+      "Ative o modo 'Solicitar' ou 'Sempre permitir'.",
+      "No celular Android, abra o painel rápido → 'Transmitir tela'.",
+      "Escolha seu dispositivo Roku e aceite na TV.",
+      "Abra o Âncora TV — a tela será espelhada.",
+    ],
+  },
+};
 
 declare global {
   interface Window {
