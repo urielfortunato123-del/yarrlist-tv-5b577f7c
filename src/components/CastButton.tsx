@@ -74,13 +74,15 @@ const CastButton = () => {
       });
   };
 
+  const [showMirrorTip, setShowMirrorTip] = useState(false);
+
   const handleMirror = () => {
-    setOpen(false);
-    const msg = isSamsungTV()
-      ? "Use Smart View ou SmartThings para espelhar na sua TV Samsung."
-      : "Use a função 'Transmitir tela' do seu celular.";
-    alert(`📺 ${msg}`);
+    setShowMirrorTip(true);
   };
+
+  const mirrorMsg = isSamsungTV()
+    ? "Use Smart View ou SmartThings para espelhar na sua TV Samsung."
+    : "Use a função 'Transmitir tela' do seu celular (no menu rápido ou em Configurações).";
 
   return (
     <>
