@@ -108,9 +108,31 @@ const CastButton = () => {
   };
 
   const [showMirrorTip, setShowMirrorTip] = useState(false);
+  const [tutorial, setTutorial] = useState<keyof typeof TUTORIALS | null>(null);
+  const [copied, setCopied] = useState(false);
 
   const handleMirror = () => {
     setShowMirrorTip(true);
+  };
+
+  const closeAll = () => {
+    setOpen(false);
+    setShowMirrorTip(false);
+    setTutorial(null);
+    setCopied(false);
+  };
+
+  const copyTutorial = async () => {
+    if (!tutorial) return;
+    const t = TUTORIALS[tutorial];
+    const text = `Como espelhar no ${t.title}:\n\n${t.steps.map((s, i) => `${i + 1}. ${s}`).join("\n")}`;
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+    }
   };
 
   const mirrorMsg = isSamsungTV()
