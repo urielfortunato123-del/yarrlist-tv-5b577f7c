@@ -144,6 +144,12 @@ const CastButton = () => {
                 </p>
               )}
 
+              {showMirrorTip && (
+                <div className="mb-3 rounded-xl border border-primary/30 bg-primary/10 px-3 py-2.5 text-center font-body text-xs text-foreground">
+                  📺 {mirrorMsg}
+                </div>
+              )}
+
               <div className="flex flex-col gap-2.5">
                 <button
                   onClick={handleCast}
