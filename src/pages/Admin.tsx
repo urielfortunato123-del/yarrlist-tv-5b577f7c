@@ -190,6 +190,10 @@ export default function Admin() {
               </form>
             ) : (
               <div className="space-y-4">
+                <div className="flex items-center justify-center gap-2 rounded-xl border border-primary/30 bg-primary/10 px-3 py-2 font-body text-xs font-medium text-primary">
+                  <Check className="h-4 w-4" /> Senha validada — acesso liberado
+                </div>
+
                 <div className="rounded-xl border border-border bg-secondary/50 px-4 py-3">
                   <p className="font-body text-xs text-muted-foreground">Versão atual</p>
                   <p className="font-display text-lg font-bold text-foreground">{currentVersion || "—"}</p>
